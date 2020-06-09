@@ -8,16 +8,16 @@ import Orders from "./containers/orders";
 function App() {
   return (
     <div className="App">
-      <Layout>
-        <Router>
+      <Router>
+        <Layout>
           <Switch>
             <Route path="/" component={BurgerBuilder} exact />
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders} />
             <Route render={() => <h2>Page not found</h2>} />
           </Switch>
-        </Router>
-      </Layout>
+        </Layout>
+      </Router>
     </div>
   );
 }
