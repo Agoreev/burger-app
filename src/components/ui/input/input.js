@@ -1,26 +1,53 @@
 import React from "react";
 import classes from "./input.module.css";
 
-const input = ({ elType, elConfig, value, label }) => {
+const input = ({
+  elType,
+  elConfig,
+  value,
+  label,
+  changed,
+  validation,
+  touched,
+}) => {
   let inputElement = null;
+  let errors = null;
+  const inputClasses = [classes.Input];
+
+  if (validation && !validation.valid && touched) {
+    inputClasses.push(classes.Invalid);
+    errors = validation.validationErrors.map((err) => {
+      return <p className={classes.ValidationError}>{err}</p>;
+    });
+  }
   switch (elType) {
     case "input":
       inputElement = (
-        <input className={classes.InputElement} {...elConfig} value={value} />
+        <input
+          className={inputClasses.join(" ")}
+          {...elConfig}
+          value={value}
+          onChange={changed}
+        />
       );
       break;
     case "textarea":
       inputElement = (
         <textarea
-          className={classes.InputElement}
+          className={inputClasses.join(" ")}
           {...elConfig}
           value={value}
+          onChange={changed}
         />
       );
       break;
     case "select":
       inputElement = (
-        <select className={classes.InputElement} value={value}>
+        <select
+          className={inputClasses.join(" ")}
+          value={value}
+          onChange={changed}
+        >
           {elConfig.options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.displayName}
@@ -31,7 +58,12 @@ const input = ({ elType, elConfig, value, label }) => {
       break;
     default:
       inputElement = (
-        <input className={classes.InputElement} {...elConfig} value={value} />
+        <input
+          className={inputClasses.join(" ")}
+          {...elConfig}
+          value={value}
+          onChange={changed}
+        />
       );
       break;
   }
@@ -39,6 +71,7 @@ const input = ({ elType, elConfig, value, label }) => {
     <div className={classes.Input}>
       <label className={classes.Label}>{label}</label>
       {inputElement}
+      {errors}
     </div>
   );
 };
