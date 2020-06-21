@@ -16,8 +16,12 @@ const input = ({
 
   if (validation && !validation.valid && touched) {
     inputClasses.push(classes.Invalid);
-    errors = validation.validationErrors.map((err) => {
-      return <p className={classes.ValidationError}>{err}</p>;
+    errors = validation.validationErrors.map((err, index) => {
+      return (
+        <p key={index} className={classes.ValidationError}>
+          {err}
+        </p>
+      );
     });
   }
   switch (elType) {
