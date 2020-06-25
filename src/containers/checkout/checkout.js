@@ -3,38 +3,32 @@ import CheckoutSummary from "../../components/Order/CheckoutSummary";
 import { withRouter } from "react-router-dom";
 import { Route } from "react-router-dom";
 import ContactData from "../checkout/contact-data";
+import { connect } from "react-redux";
 
 class Checkout extends Component {
-  state = {
-    ingridients: {},
-    totalPrice: 0,
-  };
-
-  componentDidMount() {
-    const stateFromPath = this.props.location.state;
-    this.setState({
-      ingridients: stateFromPath.ingridients,
-      totalPrice: stateFromPath.totalPrice,
-    });
-  }
-
-  render() {
-    console.log(this.props);
-    return (
-      <div>
-        <CheckoutSummary ingridients={this.state.ingridients} />
-        <Route
-          path={this.props.match.path + "/contact-data"}
-          render={() => (
-            <ContactData
-              ingridients={this.state.ingridients}
-              totalPrice={this.state.totalPrice}
-            />
-          )}
-        />
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <CheckoutSummary ingridients={this.props.ingridients} />
+                <Route
+                    path={this.props.match.path + "/contact-data"}
+                    render={() => (
+                        <ContactData
+                            ingridients={this.props.ingridients}
+                            totalPrice={this.props.totalPrice}
+                        />
+                    )}
+                />
+            </div>
+        );
+    }
 }
 
-export default withRouter(Checkout);
+const mapStateToProps = (state) => {
+    return {
+        ingridients: state.ingridients,
+        totalPrice: state.totalPrice,
+    };
+};
+
+export default withRouter(connect(mapStateToProps)(Checkout));
