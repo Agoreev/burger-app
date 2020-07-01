@@ -13,8 +13,6 @@ import { getIngridients, changeIngridients } from "../../store/actions";
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: null,
   };
 
   componentDidMount() {
@@ -51,10 +49,7 @@ class BurgerBuilder extends Component {
       );
     }
 
-    if (this.state.loading) {
-      orderSummary = <Spinner />;
-    }
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p>Ingridients can't be loaded</p>
     ) : (
       <Spinner />
@@ -93,6 +88,7 @@ const mapStateToProps = (state) => {
     ingridients: state.order.ingridients,
     totalPrice: state.order.totalPrice,
     purchaseable: state.order.purchaseable,
+    error: state.order.error,
   };
 };
 

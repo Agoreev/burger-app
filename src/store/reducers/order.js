@@ -4,6 +4,7 @@ const initialState = {
   ingridients: null,
   totalPrice: 4,
   purchaseable: false,
+  error: false,
 };
 
 const INGRIDIENT_PRICES = {
@@ -19,7 +20,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         ingridients: action.payload,
         totalPrice: 4,
+        error: false,
       };
+
     case actionTypes.CHANGE_INGRIDIENTS:
       const { type, mod } = action.payload;
       if (state.ingridients[type] + mod < 0) {
@@ -36,7 +39,6 @@ const reducer = (state = initialState, action) => {
         .reduce((sum, el) => {
           return sum + el;
         }, 0);
-
       return {
         ...state,
         ingridients: updatedIngridients,
@@ -44,6 +46,12 @@ const reducer = (state = initialState, action) => {
           2
         ),
         purchaseable: sum > 0,
+      };
+
+    case actionTypes.FETCH_INGRIDIENTS_FAILED:
+      return {
+        ...state,
+        error: true,
       };
     default:
       return state;

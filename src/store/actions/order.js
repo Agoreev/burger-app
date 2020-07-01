@@ -1,10 +1,16 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-orders";
 
-const getIngridientsResult = (ingridients) => {
+const setIngridients = (ingridients) => {
   return {
     type: actionTypes.GET_INGRIDIENTS,
     payload: ingridients,
+  };
+};
+
+const fetchIngridientsFailed = () => {
+  return {
+    type: actionTypes.FETCH_INGRIDIENTS_FAILED,
   };
 };
 
@@ -13,9 +19,11 @@ export const getIngridients = () => {
     axios
       .get("https://burger-app-67311.firebaseio.com/ingridients.json")
       .then((response) => {
-        dispatch(getIngridientsResult(response.data));
+        dispatch(setIngridients(response.data));
       })
-      .catch((error) => {});
+      .catch((error) => {
+        dispatch(fetchIngridientsFailed());
+      });
   };
 };
 
