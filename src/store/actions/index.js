@@ -1,2 +1,2 @@
-export { getIngridients, changeIngridients } from "./order";
+export { getIngridients, changeIngridients } from "./burgerBuilder";
 export { getOrders } from "./orders";

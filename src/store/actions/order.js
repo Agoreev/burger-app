@@ -1,35 +1,30 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-orders";
 
-const setIngridients = (ingridients) => {
+export const purchaseBurgerSuccess = (id, orderData) => {
   return {
-    type: actionTypes.GET_INGRIDIENTS,
-    payload: ingridients,
+    type: actionTypes.PURCHASE_BURGER_SUCCESS,
+    orderId: id,
+    orderData: orderData,
   };
 };
 
-const fetchIngridientsFailed = () => {
+export const purchaseBurgerFail = (error) => {
   return {
-    type: actionTypes.FETCH_INGRIDIENTS_FAILED,
+    type: actionTypes.purchaseBurgerFail,
+    error: error,
   };
 };
 
-export const getIngridients = () => {
+export const purchaseBurgerStart = (orderData) => {
   return (dispatch) => {
     axios
-      .get("https://burger-app-67311.firebaseio.com/ingridients.json")
+      .post("/orders.json", orderData)
       .then((response) => {
-        dispatch(setIngridients(response.data));
+        dispatch(purchaseBurgerSuccess(response.data, orderData));
       })
       .catch((error) => {
-        dispatch(fetchIngridientsFailed());
+        dispatch(purchaseBurgerFail(error));
       });
-  };
-};
-
-export const changeIngridients = (type, mod) => {
-  return {
-    type: "CHANGE_INGRIDIENTS",
-    payload: { type: type, mod: mod },
   };
 };
