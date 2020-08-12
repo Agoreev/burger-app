@@ -6,28 +6,33 @@ import ContactData from "../checkout/contact-data";
 import { connect } from "react-redux";
 
 class Checkout extends Component {
-  render() {
-    let summary = <Redirect to="/" />;
-    if (this.props.ingridients) {
-      summary = (
-        <div>
-          <CheckoutSummary ingridients={this.props.ingridients} />
-          <Route
-            path={this.props.match.path + "/contact-data"}
-            render={() => <ContactData />}
-          />
-        </div>
-      );
+    render() {
+        let summary = <Redirect to="/" />;
+        if (this.props.ingridients) {
+            const purchasedRedirect = this.props.purchased ? (
+                <Redirect to="/" />
+            ) : null;
+            summary = (
+                <div>
+                    {purchasedRedirect}
+                    <CheckoutSummary ingridients={this.props.ingridients} />
+                    <Route
+                        path={this.props.match.path + "/contact-data"}
+                        render={() => <ContactData />}
+                    />
+                </div>
+            );
+        }
+        return summary;
     }
-    return summary;
-  }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    ingridients: state.burgerBuilder.ingridients,
-    totalPrice: state.burgerBuilder.totalPrice,
-  };
+    return {
+        ingridients: state.burgerBuilder.ingridients,
+        totalPrice: state.burgerBuilder.totalPrice,
+        purchased: state.orders.purchased,
+    };
 };
 
 export default withRouter(connect(mapStateToProps)(Checkout));

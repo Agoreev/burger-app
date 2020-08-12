@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
-const OrderSummary = ({ ingridients, cancel, price }) => {
+const OrderSummary = ({ ingridients, cancel, price, continueHandler }) => {
     const ingridientSummary = Object.keys(ingridients).map((igKey) => {
         return (
             <li key={igKey}>
@@ -20,9 +20,9 @@ const OrderSummary = ({ ingridients, cancel, price }) => {
             <button className="button danger" onClick={cancel}>
                 CANCEL
             </button>
-            <Link className="button success" to="/checkout">
+            <button className="button success" onClick={continueHandler}>
                 CONTINUE
-            </Link>
+            </button>
         </Fragment>
     );
 };
