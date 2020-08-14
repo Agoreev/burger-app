@@ -1,3 +1,4 @@
+# Burger-app
 🍔 Online store for ordering burgers (React + Redux + Firebase)
 
 This is a study project written during the course [React - The Complete Guide (incl Hooks, React Router, Redux)](https://www.udemy.com/course/react-the-complete-guide-incl-redux)
