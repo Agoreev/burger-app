@@ -126,34 +126,46 @@ class ContactData extends Component {
   };
 
   checkValidity = (value, validation) => {
-    const updatedValidation = { ...validation };
-    updatedValidation.valid = true;
-    updatedValidation.validationErrors = [];
-    if (validation.required) {
-      updatedValidation.valid = value.trim() !== "" && updatedValidation.valid;
-      if (!updatedValidation.valid) {
-        updatedValidation.validationErrors.push("This field is required");
+    let { valid, validationErrors, ...rules } = { ...validation };
+    valid = true;
+    validationErrors = [];
+
+    if (rules.required && value.trim() === "") {
+      valid = false;
+      validationErrors.push("Field is required");
+    }
+
+    if (rules.minLength && value.length < rules.minLength) {
+      valid = false;
+      validationErrors.push(`Minimum length is ${rules.minLength}`);
+    }
+
+    if (rules.maxLength && value.length <= rules.maxLength) {
+      valid = false;
+      validationErrors.push(`Maximum length is ${rules.maxLength}`);
+    }
+
+    if (rules.isEmail) {
+      const pattern = /^\S+@\S+\.\S+$/;
+      if (!pattern.test(value)) {
+        valid = false;
+        validationErrors.push("Email is not valid");
       }
     }
-    if (validation.minLength) {
-      updatedValidation.valid =
-        value.length >= validation.minLength && updatedValidation.valid;
-      if (!updatedValidation.valid) {
-        updatedValidation.validationErrors.push(
-          `The minimum length is ${validation.minLength}`
-        );
+
+    if (rules.isNumeric) {
+      const pattern = /^\d+$/;
+      if (!pattern.test(value)) {
+        valid = false;
+        validationErrors.push("Enter numeric value");
       }
     }
-    if (validation.maxLength) {
-      updatedValidation.valid =
-        value.length <= validation.maxLength && updatedValidation.valid;
-      if (!updatedValidation.valid) {
-        updatedValidation.validationErrors.push(
-          `The maximum length is ${validation.maxLength}`
-        );
-      }
-    }
-    return updatedValidation;
+    const newValidation = {
+      ...validation,
+      valid,
+      validationErrors,
+    };
+    return newValidation;
   };
 
   inputChangedHandler = (event, inputIdentifier) => {
