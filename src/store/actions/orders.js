@@ -1,20 +1,40 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-orders";
 
-const getOrdersResult = (orders) => {
+const getOrdersSuccess = (orders) => {
   return {
-    type: actionTypes.GET_ORDERS,
+    type: actionTypes.GET_ORDERS_SUCCESS,
     payload: orders,
+  };
+};
+
+const getOrdersFail = (error) => {
+  return {
+    type: actionTypes.GET_ORDERS_FAILED,
+    error: error,
+  };
+};
+
+const getOrdersStart = () => {
+  return {
+    type: actionTypes.GET_ORDERS_START,
   };
 };
 
 export const getOrders = () => {
   return (dispatch) => {
+    dispatch(getOrdersStart());
     axios
       .get("/orders.json")
       .then((res) => {
-        dispatch(getOrdersResult(res.data));
+        const fetchedOrders = [];
+        for (let key in res.data) {
+          fetchedOrders.push({ ...res.data[key], id: key });
+        }
+        dispatch(getOrdersSuccess(fetchedOrders));
       })
-      .catch((err) => {});
+      .catch((err) => {
+        dispatch(getOrdersFail(err));
+      });
   };
 };
