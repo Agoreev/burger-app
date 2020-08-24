@@ -39,13 +39,26 @@ export const auth = (email, password, isSignUp) => {
     axios
       .post(url, authData)
       .then((response) => {
-        console.log(response);
         const { idToken, localId } = response.data;
         dispatch(authSuccess(idToken, localId));
       })
       .catch((err) => {
-        console.log(err);
-        dispatch(authFailed(err));
+        let errorMessage = null;
+        switch (err.response.data.error.message) {
+          case "EMAIL_EXISTS":
+            errorMessage = "Account with the given Email already exists";
+            break;
+          case "INVALID_PASSWORD":
+            errorMessage = "Email not found or invalid password";
+            break;
+          case "EMAIL_NOT_FOUND":
+            errorMessage = "Email not found or invalid password";
+            break;
+          default:
+            errorMessage = err.response.data.error.message;
+            break;
+        }
+        dispatch(authFailed(errorMessage));
       });
   };
 };
