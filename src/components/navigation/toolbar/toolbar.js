@@ -4,7 +4,7 @@ import Logo from "../../logo";
 import NavigationItems from "../navigation-items";
 import DrawerToggle from "../side-drawer/drawer-toggle";
 
-const Toolbar = ({ sideDrawerOpen }) => {
+const Toolbar = ({ sideDrawerOpen, isAuthenticated }) => {
   return (
     <header className={classes.Toolbar}>
       <DrawerToggle clicked={sideDrawerOpen} />
@@ -13,7 +13,7 @@ const Toolbar = ({ sideDrawerOpen }) => {
       </div>
 
       <nav className={classes.DesktopOnly}>
-        <NavigationItems />
+        <NavigationItems isAuthenticated={isAuthenticated} />
       </nav>
     </header>
   );
