@@ -6,7 +6,9 @@ const NavigationItems = ({ isAuthenticated }) => {
   return (
     <ul className={classes.NavigationItems}>
       <NavigationItem link="/">Burger builder</NavigationItem>
-      <NavigationItem link="/orders">Orders</NavigationItem>
+      {isAuthenticated ? (
+        <NavigationItem link="/orders">Orders</NavigationItem>
+      ) : null}
       {!isAuthenticated ? (
         <NavigationItem link="/auth">Authenticate</NavigationItem>
       ) : (
