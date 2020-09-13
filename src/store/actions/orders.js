@@ -21,11 +21,11 @@ const getOrdersStart = () => {
   };
 };
 
-export const getOrders = () => {
+export const getOrders = (token) => {
   return (dispatch) => {
     dispatch(getOrdersStart());
     axios
-      .get("/orders.json")
+      .get("/orders.json?auth=" + token)
       .then((res) => {
         const fetchedOrders = [];
         for (let key in res.data) {

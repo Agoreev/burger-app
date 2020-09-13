@@ -12,6 +12,7 @@ import {
   getIngridients,
   changeIngridients,
   purchaseInit,
+  setAuthRedirectPath,
 } from "../../store/actions";
 
 class BurgerBuilder extends Component {
@@ -27,6 +28,7 @@ class BurgerBuilder extends Component {
     if (this.props.isAuthenticated) {
       this.setState({ purchasing: true });
     } else {
+      this.props.onSetAuthRedirectPath("/checkout");
       this.props.history.push("/auth");
     }
   };
@@ -113,6 +115,7 @@ const mapDispatchToProps = (dispatch) => {
     onGetIngridients: () => dispatch(getIngridients()),
     onIngridientsChange: (type, mod) => dispatch(changeIngridients(type, mod)),
     onPurchaseInit: () => dispatch(purchaseInit()),
+    onSetAuthRedirectPath: (path) => dispatch(setAuthRedirectPath(path)),
   };
 };
 

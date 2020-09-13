@@ -8,7 +8,7 @@ import Spinner from "../../components/ui/spinner";
 
 class Orders extends Component {
   componentDidMount() {
-    this.props.onGetOrders();
+    this.props.onGetOrders(this.props.token);
   }
   render() {
     if (this.props.loading) {
@@ -32,12 +32,13 @@ const mapStateToProps = (state) => {
   return {
     orders: state.orders.orders,
     loading: state.orders.loadingOrders,
+    token: state.auth.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetOrders: () => dispatch(getOrders()),
+    onGetOrders: (token) => dispatch(getOrders(token)),
   };
 };
 

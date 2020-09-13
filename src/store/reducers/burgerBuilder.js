@@ -5,6 +5,7 @@ const initialState = {
   totalPrice: 4,
   purchaseable: false,
   error: false,
+  building: false,
 };
 
 const INGRIDIENT_PRICES = {
@@ -20,6 +21,7 @@ const getIngridients = (state, action) => {
     ingridients: action.payload,
     totalPrice: 4,
     error: false,
+    building: false,
   };
 };
 
@@ -44,6 +46,7 @@ const changeIngridients = (state, action) => {
     ingridients: updatedIngridients,
     totalPrice: +(state.totalPrice + mod * INGRIDIENT_PRICES[type]).toFixed(2),
     purchaseable: sum > 0,
+    building: true,
   };
 };
 
